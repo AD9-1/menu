@@ -101,3 +101,34 @@ const display = (menu) => {
     .join("");
   section.innerHTML = displaymenu;
 };
+const categories = menu.reduce(
+  (finalcat, item) => {
+    if (!finalcat.includes(item.category)) finalcat.push(item.category);
+    return finalcat;
+  },
+  ["all"]
+);
+const categoryBtn = categories
+  .map(
+    (cate) =>
+      `<button type="button" class="filter-btn" value=${cate}>
+${cate}
+</button>`
+  )
+  .join("");
+const btns = document.querySelector(".button-container");
+btns.innerHTML = categoryBtn;
+
+const filterbtn = btns.querySelectorAll(".filter-btn");
+console.log(filterbtn);
+
+filterbtn.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    console.log(e.target.value);
+    const menuItem = menu.filter((data) => {
+      return data.category == e.target.value;
+    });
+    display(menuItem);
+    if (e.target.value == "all") display(menu);
+  });
+});
